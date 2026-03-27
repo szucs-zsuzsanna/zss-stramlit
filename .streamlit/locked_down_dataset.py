@@ -1,20 +1,14 @@
-
 import streamlit as st
 
-# 1. AUTHENTICATION LAYER (The Gatekeeper)
-# This part handles the login. You'd use a library or SSO here.
-# For this example, let's assume 'user_email' comes from your Auth provider.
-user_email = get_logged_in_user_email() 
+# This gets the email of the person currently viewing the app
+# Note: This only works on Streamlit Cloud for Private apps
+user_email = st.user.email 
 
-# 2. THE RESTRICTION CHECK
 allowed_users = ["zss@trustpilot.com", "analyst@company.com"]
 
 if user_email not in allowed_users:
-    st.error("🚫 Access Denied: Your email is not on the authorized list.")
-    st.stop() # Execution stops here for unauthorized users
+    st.error(f"🚫 Access Denied. {user_email} is not authorized.")
+    st.stop()
 
-# 3. THE PROTECTED CONTENT
-# Everything below this line is only visible to the people in your list.
-st.title("Internal Financial Dashboard")
-st.write("Welcome back!", user_email)
-# load_sensitive_data() ...
+st.success("Welcome! You have access to the restricted data.")
+# Your sensitive data code goes here...
